@@ -1,4 +1,4 @@
-package com.hotel.booking.service.web.controller;
+package com.hotel.booking.service.controller;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/rooms")
-@Tag(name = "Room", description = "the product API")
+@Tag(name ="Room", description = "the product API")
 public class RoomController {
 
     @Autowired
