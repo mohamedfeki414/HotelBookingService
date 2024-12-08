@@ -1,6 +1,7 @@
 package com.hotel.booking.service.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +31,12 @@ public class RoomController {
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
+    
+    @GetMapping("/{id}")
+    public Optional<Room> getRoomById(@PathVariable Long id) {
+        return roomRepository.findById(id);
+    }
+
 
     
     @PostMapping
