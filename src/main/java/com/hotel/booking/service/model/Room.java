@@ -4,6 +4,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ public class Room {
 
     @NotNull(message = "Le type de chambre est obligatoire")
     @JsonProperty("type")
+    @Column(name = "type")
     private String type;
     @NotNull(message = "Le prix est obligatoire")
     @JsonProperty("pricePerNight")

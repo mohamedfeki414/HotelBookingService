@@ -92,8 +92,17 @@ public class RoomController {
     public void deleteRoom(@PathVariable Long id) {
         roomRepository.deleteById(id);
     }
-    @GetMapping("/orderBY/date")
+    @GetMapping("/orderBY/prix")
     public List<Room>findByOrderByPricePerNightDesc(){
     	return roomRepository.findByOrderByPricePerNightDesc();
     }
+    @GetMapping("/type/{type}")
+    public List<Room>findByType(@PathVariable String type){
+    	return roomRepository.findByType(type);
+    }
+    @GetMapping("/dispo/dis/{is_available}")
+    public List<Room>findByIsAvailable(@PathVariable Boolean is_available){
+    	return roomRepository.findByIsAvailable(is_available);
+    }
+   
 }
