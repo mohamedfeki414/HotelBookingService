@@ -45,7 +45,7 @@ public class RoomController {
         System.out.println("Requête reçue : " + room);
         return roomRepository.save(room);
     }
-   @PutMapping
+   @PutMapping("/{id}")
      void updateRoom(@RequestBody Room room) {
 	   roomRepository.save(room);
    }
