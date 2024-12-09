@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.hotel.booking.service.exceptions.InvalidInputException;
 import com.hotel.booking.service.exceptions.NoSuchElementFoundException;
 import com.hotel.booking.service.model.Room;
@@ -90,5 +91,9 @@ public class RoomController {
     @DeleteMapping("/{id}")
     public void deleteRoom(@PathVariable Long id) {
         roomRepository.deleteById(id);
+    }
+    @GetMapping("/orderBY/date")
+    public List<Room>findByOrderByPricePerNightDesc(){
+    	return roomRepository.findByOrderByPricePerNightDesc();
     }
 }
