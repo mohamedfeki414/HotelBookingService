@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hotel.booking.service.exceptions.NoSuchElementFoundException;
 import com.hotel.booking.service.model.Room;
 import com.hotel.booking.service.repository.RoomRepository;
 
@@ -33,8 +34,9 @@ public class RoomController {
     }
     
     @GetMapping("/{id}")
-    public Optional<Room> getRoomById(@PathVariable Long id) {
-        return roomRepository.findById(id);
+    public Room getRoomById(@PathVariable Long id) {
+        return roomRepository.findById(id)
+        .orElseThrow(()->new NoSuchElementFoundException("id not found")); 
     }
 
 
@@ -45,9 +47,19 @@ public class RoomController {
         System.out.println("Requête reçue : " + room);
         return roomRepository.save(room);
     }
-   @PutMapping("/{id}")
-     void updateRoom(@RequestBody Room room) {
-	   roomRepository.save(room);
+   @PutMapping ("/{id}")
+     public Room updateRoom(@RequestBody Room room , @PathVariable Long id) {
+	   return roomRepository.findById(id)
+	       .map(existingRoom -> {
+          
+           existingRoom.setRoomNumber(room.getRoomNumber());
+           existingRoom.setType(room.getType());
+           existingRoom.setPricePerNight(room.getPricePerNight());
+           existingRoom.setIsAvailable(room.getIsAvailable());
+           
+           return roomRepository.save(existingRoom);
+       })
+	   .orElseThrow(() -> new NoSuchElementFoundException("Room not found with id " + id));
    }
    @DeleteMapping("/{id}")
    public void deleteRoom(@PathVariable Long id) {
