@@ -26,15 +26,18 @@ public class Room {
 
     @NotNull(message = "Le numéro de chambre ne peut pas être null")
     @JsonProperty("roomNumber")
-    private Double roomNumber;
+    @Column(unique = true)
+    private Integer roomNumber;
 
     @NotNull(message = "Le type de chambre est obligatoire")
     @JsonProperty("type")
     @Column(name = "type")
     private String type;
+    
     @NotNull(message = "Le prix est obligatoire")
     @JsonProperty("pricePerNight")
     private Double pricePerNight;
+    
     @NotNull(message = "ce champ est obligatoire")
     @JsonProperty("isAvailable")
     private Boolean isAvailable;
@@ -43,7 +46,7 @@ public class Room {
     public Room() {}
 
     
-    public Room(Long id, Double roomNumber, String type, Double pricePerNight, Boolean isAvailable) {
+    public Room(Long id, Integer roomNumber, String type, Double pricePerNight, Boolean isAvailable) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.type = type;
@@ -60,11 +63,11 @@ public class Room {
         this.id = id;
     }
 
-    public Double getRoomNumber() {
+    public Integer getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(Double roomNumber) {
+    public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
 
