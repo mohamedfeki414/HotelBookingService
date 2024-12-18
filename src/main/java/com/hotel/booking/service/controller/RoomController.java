@@ -31,17 +31,7 @@ public class RoomController {
 
     private static final List<String> VALID_ROOM_TYPES = List.of("Single", "Double", "Suite");
 
-    @ExceptionHandler(NoSuchElementFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> handleNoSuchElementFoundException(NoSuchElementFoundException exception) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
-    }
-
-    @ExceptionHandler(InvalidInputException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleInvalidInputException(InvalidInputException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-    }
+   
 
     @Autowired
     private RoomRepository roomRepository;
