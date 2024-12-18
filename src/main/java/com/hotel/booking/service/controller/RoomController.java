@@ -2,17 +2,13 @@ package com.hotel.booking.service.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -37,18 +33,20 @@ public class RoomController {
     private RoomRepository roomRepository;
 
     @GetMapping
+    @Operation(summary = "Obtenir la liste des chambres",description = "Récupère toutes les chambres disponibles.")
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Récupérer une chambre par ID", description = "Récupère les détails d'une chambre en utilisant son identifiant unique.")
     public Room getRoomById(@PathVariable Long id) {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementFoundException("id not found"));
     }
 
     @PostMapping
-    @Operation(summary = "Create a new room", description = "This endpoint allows you to create a new room.")
+    @Operation(summary = "Créer une chambre", description = "Crée une nouvelle chambre avec les informations fournies.")
     public Room createRoom(@RequestBody Room room) {
         if (room.getPricePerNight() <= 0) {
             throw new InvalidInputException("The price per night must be greater than 0.");
@@ -66,6 +64,7 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Mettre à jour une chambre par ID",description = "Met à jour les détails d'une chambre en utilisant son identifiant unique.")
     public Room updateRoom(@RequestBody Room room, @PathVariable Long id) {
         return roomRepository.findById(id)
                 .map(existingRoom -> {
@@ -79,18 +78,22 @@ public class RoomController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Supprimer une chambre par ID",description = "Supprime une chambre en utilisant son identifiant unique.")
     public void deleteRoom(@PathVariable Long id) {
         roomRepository.deleteById(id);
     }
     @GetMapping("/orderBY/prix")
+    @Operation(summary = "Lister les chambres par prix décroissant",description = "Retourne une liste de chambres triées par prix décroissant.")
     public List<Room>findByOrderByPricePerNightDesc(){
     	return roomRepository.findByOrderByPricePerNightDesc();
     }
     @GetMapping("/type/{type}")
+    @Operation(summary = "Trouver les chambres par type",description = "Retourne une liste de chambres en fonction de leur type (par exemple, single, double, suite).")
     public List<Room>findByType(@PathVariable String type){
     	return roomRepository.findByType(type);
     }
     @GetMapping("/dispo/dis/{is_available}")
+    @Operation(summary = "Trouver les chambres disponibles",description = "Retourne une liste de chambres disponibles ou non disponibles en fonction du statut spécifié.")
     public List<Room>findByIsAvailable(@PathVariable Boolean is_available){
     	return roomRepository.findByIsAvailable(is_available);
     }
