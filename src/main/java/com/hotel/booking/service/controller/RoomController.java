@@ -59,6 +59,9 @@ public class RoomController {
         if (room.getRoomNumber() < 1 || room.getRoomNumber() > 99) {
             throw new InvalidInputException("The room number must be between 1 and 99.");
         }
+        if (roomRepository.existsByRoomNumber(room.getRoomNumber())) {
+            throw new InvalidInputException("Room number must be unique. Room with this number already exists.");
+        }
 
         return roomRepository.save(room);
     }
@@ -66,6 +69,18 @@ public class RoomController {
     @PutMapping("/{id}")
     @Operation(summary = "Mettre à jour une chambre par ID",description = "Met à jour les détails d'une chambre en utilisant son identifiant unique.")
     public Room updateRoom(@RequestBody Room room, @PathVariable Long id) {
+    	 if (room.getPricePerNight() <= 0) {
+             throw new InvalidInputException("The price per night must be greater than 0.");
+         }
+
+         if (!VALID_ROOM_TYPES.contains(room.getType())) {
+             throw new InvalidInputException("The room type must be one of the following: Single, Double, Suite.");
+         }
+
+         if (room.getRoomNumber() < 1 || room.getRoomNumber() > 99) {
+             throw new InvalidInputException("The room number must be between 1 and 99.");
+         }
+        
         return roomRepository.findById(id)
                 .map(existingRoom -> {
                     existingRoom.setRoomNumber(room.getRoomNumber());
