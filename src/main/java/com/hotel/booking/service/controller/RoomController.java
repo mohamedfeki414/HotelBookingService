@@ -112,5 +112,12 @@ public class RoomController {
     public List<Room>findByIsAvailable(@PathVariable Boolean is_available){
     	return roomRepository.findByIsAvailable(is_available);
     }
-   
+    @GetMapping("/r/r/r/r/{type}")
+    @Operation(summary = "Trouver le nombre des chambre chambres disponibles non type ",description = "Retourne le nombre du chambre non single")
+    public long getNonSingleRoomCount(String type) {
+        return roomRepository.countByTypeNot("type");
+    }
 }
+    
+   
+
